@@ -8,6 +8,10 @@ import net.blackscarx.betterchairs.Files.Config;
 import net.blackscarx.betterchairs.Files.Messages;
 import net.blackscarx.betterchairs.NMSManager.NMS_V1_10_R1.v1_10_R1;
 import net.blackscarx.betterchairs.NMSManager.NMS_V1_11_R1.v1_11_R1;
+import net.blackscarx.betterchairs.NMSManager.NMS_v1_12_R1.v1_12_R1;
+import net.blackscarx.betterchairs.NMSManager.NMS_v1_13_R1.v1_13_R1;
+import net.blackscarx.betterchairs.NMSManager.NMS_v1_13_R2.v1_13_R2;
+import net.blackscarx.betterchairs.NMSManager.NMS_v1_14_R1.v1_14_R1;
 import net.blackscarx.betterchairs.NMSManager.NMS_v1_8_R1.v1_8_R1;
 import net.blackscarx.betterchairs.NMSManager.NMS_v1_8_R2.v1_8_R2;
 import net.blackscarx.betterchairs.NMSManager.NMS_v1_8_R3.v1_8_R3;
@@ -85,8 +89,15 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         new SlabBlock(Material.WOOD_STEP, (short) 4, "acacia_wood_slab");
         new SlabBlock(Material.WOOD_STEP, (short) 5, "dark_oak_wood_slab");
         new SlabBlock(Material.STONE_SLAB2, (short) 0, "red_sandstone_slab");
-        if (nms.getVersion().equals("v1_9_R1") || nms.getVersion().equals("v1_10_R1") || nms.getVersion().equals("v1_11_R1"))
-            new SlabBlock(Material.PURPUR_SLAB, (short) 0, "purpur_slab");
+        if (nms.getVersion().equals("v1_9_R1")
+                || nms.getVersion().equals("v1_10_R1")
+                || nms.getVersion().equals("v1_11_R1")
+                || nms.getVersion().equals("v1_12_R1")
+                || nms.getVersion().equals("v1_13_R1")
+                || nms.getVersion().equals("v1_13_R2")
+                || nms.getVersion().equals("v1_14_R1"))
+            new SlabBlock(Material.valueOf("PURPUR_SLAB"), (short) 0, "purpur_slab");
+
         Config.init();
         Messages.init();
         getCommand("betterchairsreload").setExecutor(new CmdReload());
@@ -122,6 +133,18 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         }
         getLogger().info("Your server is running version " + version);
         switch (version) {
+            case "v1_14_R1":
+                nms = new v1_14_R1();
+                break;
+            case "v1_13_R2":
+                nms = new v1_13_R2();
+                break;
+            case "v1_13_R1":
+                nms = new v1_13_R1();
+                break;
+            case "v1_12_R1":
+                nms = new v1_12_R1();
+                break;
             case "v1_11_R1":
                 nms = new v1_11_R1();
                 break;
@@ -200,7 +223,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         }
         //Check no item in hand
         if (getConfig().getBoolean("No item in hand")) {
-            if (!(nms.getVersion().equals("v1_9_R1") || nms.getVersion().equals("v1_9_R2") || nms.getVersion().equals("v1_10_R1") || nms.getVersion().equals("v1_11_R1"))) {
+            if (nms.getVersion().startsWith("v1_8_")) {
                 if (p.getItemInHand().getType() != Material.AIR)
                     return;
             } else {
@@ -330,7 +353,7 @@ public class ChairsPlugin extends JavaPlugin implements Listener {
         if (p.isSneaking())
             return;
         if (getConfig().getBoolean("No item in hand")) {
-            if (!(nms.getVersion().equals("v1_9_R1") || nms.getVersion().equals("v1_9_R2") || nms.getVersion().equals("v1_10_R1") || nms.getVersion().equals("v1_11_R1"))) {
+            if (nms.getVersion().startsWith("v1_8_")) {
                 if (p.getItemInHand().getType() != Material.AIR)
                     return;
             } else {
